@@ -1,2 +1,2 @@
-1.1
+1.2
 https://github.com/kamrulhasansamol/tool/raw/main/XENO_OTP.exe
