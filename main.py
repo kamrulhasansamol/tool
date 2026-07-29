@@ -1125,10 +1125,10 @@ import re
 TELEGRAM_BOT_TOKEN = "8823775166:AAFZeLtovMfGEzEwXOcKh3HjMp5weLMyr78"
 TELEGRAM_ADMIN_CHAT_ID = "6262468884"
 # Replace this with your GitHub raw URL (e.g. raw.githubusercontent.com/.../auth.txt)
-GITHUB_RAW_URL = "https://raw.githubusercontent.com/kamrulhasansamol/tool/main/auth.txt"
+GITHUB_RAW_URL = "https://raw.githubusercontent.com/kamrulhasansamol/panel/refs/heads/main/auth.txt"
 
 
-CURRENT_VERSION = 1.1
+CURRENT_VERSION = 1.3
 # Replace with your GitHub raw URL to version.txt
 UPDATE_URL = "https://raw.githubusercontent.com/kamrulhasansamol/tool/main/version.txt"
 
