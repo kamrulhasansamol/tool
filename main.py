@@ -1130,7 +1130,7 @@ TELEGRAM_ADMIN_CHAT_ID = "6262468884"
 GITHUB_RAW_URL = "https://raw.githubusercontent.com/kamrulhasansamol/panel/refs/heads/main/auth.txt"
 
 
-CURRENT_VERSION = 1.5
+CURRENT_VERSION = 1.6
 # Replace with your GitHub raw URL to version.txt
 UPDATE_URL = "https://raw.githubusercontent.com/kamrulhasansamol/tool/main/version.txt"
 
@@ -1242,18 +1242,19 @@ def verify_auth():
     print(f"\n{YELLOW}Checking License from Server...{WHITE}")
     
     try:
-        res = requests.get(GITHUB_RAW_URL, timeout=5)
+        import time
+        res = requests.get(f"{GITHUB_RAW_URL}?t={int(time.time())}", timeout=5)
         data = res.text
     except:
         print(f"{RED}[!] Failed to connect to Auth Server.{WHITE}")
         sys.exit(1)
         
-    status_match = re.search(r"STATUS=(ON|OFF)", data, re.IGNORECASE)
+    status_match = re.search(r"STATUS\s*=\s*(ON|OFF)", data, re.IGNORECASE)
     if status_match and status_match.group(1).upper() == "OFF":
         print(f"\n{RED}[!] TOOL IS CURRENTLY DISABLED FOR MAINTENANCE.{WHITE}")
         sys.exit(1)
         
-    hwid_match = re.search(rf"{hwid}=(\d+)", data, re.IGNORECASE)
+    hwid_match = re.search(rf"{hwid}\s*=\s*(\d+)", data, re.IGNORECASE)
     if not hwid_match:
         print(f"\n{RED}[!] AUTHORIZATION REQUIRED{WHITE}")
         print(f"{WHITE}Your HWID: {GREEN}{hwid}{WHITE}")
