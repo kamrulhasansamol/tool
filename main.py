@@ -1128,7 +1128,7 @@ TELEGRAM_ADMIN_CHAT_ID = "6262468884"
 GITHUB_RAW_URL = "https://raw.githubusercontent.com/kamrulhasansamol/panel/refs/heads/main/auth.txt"
 
 
-CURRENT_VERSION = 1.3
+CURRENT_VERSION = 1.4
 # Replace with your GitHub raw URL to version.txt
 UPDATE_URL = "https://raw.githubusercontent.com/kamrulhasansamol/tool/main/version.txt"
 
@@ -1159,9 +1159,23 @@ def check_for_updates():
                         if dl_res.status_code == 200:
                             if is_frozen:
                                 new_file = "XENO_OTP_new.exe"
+                                total_length = dl_res.headers.get('content-length')
                                 with open(new_file, "wb") as f:
-                                    for chunk in dl_res.iter_content(chunk_size=8192):
-                                        f.write(chunk)
+                                    if total_length is None:
+                                        for chunk in dl_res.iter_content(chunk_size=8192):
+                                            f.write(chunk)
+                                    else:
+                                        dl = 0
+                                        total_length = int(total_length)
+                                        for chunk in dl_res.iter_content(chunk_size=8192):
+                                            dl += len(chunk)
+                                            f.write(chunk)
+                                            done = int(50 * dl / total_length)
+                                            dl_mb = dl / (1024 * 1024)
+                                            total_mb = total_length / (1024 * 1024)
+                                            sys.stdout.write(f"\r{YELLOW}[{'=' * done}{' ' * (50-done)}] {dl_mb:.2f} MB / {total_mb:.2f} MB{WHITE}")
+                                            sys.stdout.flush()
+                                        print()
                                         
                                 bat_content = f'''@echo off
 timeout /t 2 /nobreak >nul
@@ -1180,8 +1194,22 @@ del "%~f0"
                                 sys.exit(0)
                             else:
                                 new_file = "main_new.py"
+                                total_length = dl_res.headers.get('content-length')
                                 with open(new_file, "wb") as f:
-                                    f.write(dl_res.content)
+                                    if total_length is None:
+                                        f.write(dl_res.content)
+                                    else:
+                                        dl = 0
+                                        total_length = int(total_length)
+                                        for chunk in dl_res.iter_content(chunk_size=8192):
+                                            dl += len(chunk)
+                                            f.write(chunk)
+                                            done = int(50 * dl / total_length)
+                                            dl_mb = dl / (1024 * 1024)
+                                            total_mb = total_length / (1024 * 1024)
+                                            sys.stdout.write(f"\r{YELLOW}[{'=' * done}{' ' * (50-done)}] {dl_mb:.2f} MB / {total_mb:.2f} MB{WHITE}")
+                                            sys.stdout.flush()
+                                        print()
                                     
                                 import shutil
                                 shutil.move(new_file, os.path.basename(__file__))
@@ -2828,4 +2856,8 @@ def main_menu():
             time.sleep(1.5)
 
 if __name__ == "__main__":
+    for file_name in ["Number_List.txt", "Proxy_List.txt"]:
+        if not os.path.exists(file_name):
+            with open(file_name, "w") as f:
+                pass
     main_menu()
