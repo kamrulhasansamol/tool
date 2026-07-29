@@ -1128,7 +1128,7 @@ TELEGRAM_ADMIN_CHAT_ID = "6262468884"
 GITHUB_RAW_URL = "https://raw.githubusercontent.com/kamrulhasansamol/tool/main/auth.txt"
 
 
-CURRENT_VERSION = 1.0
+CURRENT_VERSION = 1.1
 # Replace with your GitHub raw URL to version.txt
 UPDATE_URL = "https://raw.githubusercontent.com/kamrulhasansamol/tool/main/version.txt"
 
