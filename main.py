@@ -3,6 +3,9 @@
 # config.py
 # ========================================
 import os
+import sys
+if sys.platform == "win32":
+    os.system("chcp 65001 > nul")
 
 # Terminal colors
 WHITE = "\033[1;97m"
@@ -1124,11 +1127,10 @@ import re
 
 TELEGRAM_BOT_TOKEN = "8823775166:AAFZeLtovMfGEzEwXOcKh3HjMp5weLMyr78"
 TELEGRAM_ADMIN_CHAT_ID = "6262468884"
-# Replace this with your GitHub raw URL (e.g. raw.githubusercontent.com/.../auth.txt)
 GITHUB_RAW_URL = "https://raw.githubusercontent.com/kamrulhasansamol/panel/refs/heads/main/auth.txt"
 
 
-CURRENT_VERSION = 1.4
+CURRENT_VERSION = 1.5
 # Replace with your GitHub raw URL to version.txt
 UPDATE_URL = "https://raw.githubusercontent.com/kamrulhasansamol/tool/main/version.txt"
 
@@ -2856,8 +2858,14 @@ def main_menu():
             time.sleep(1.5)
 
 if __name__ == "__main__":
-    for file_name in ["Number_List.txt", "Proxy_List.txt"]:
-        if not os.path.exists(file_name):
-            with open(file_name, "w") as f:
-                pass
-    main_menu()
+    try:
+        for file_name in ["Number_List.txt", "Proxy_List.txt"]:
+            if not os.path.exists(file_name):
+                with open(file_name, "w") as f:
+                    pass
+        main_menu()
+    except Exception as e:
+        import traceback
+        print(f"\nCRITICAL ERROR: {e}")
+        traceback.print_exc()
+        input("\nPress Enter to exit...")
